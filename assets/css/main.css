@@ -1626,9 +1626,9 @@
 	body {
 		background-color: #E53935; 
 		background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #F29C9A 15%, #E53935 85%);
-		background-image: url("images/overlay.png"), -webkit-linear-gradient(45deg, #F5B5B3 15%, #E8524E 85%);
-		background-image: url("images/overlay.png"), -ms-linear-gradient(45deg, #F8CECC 15%, #EB6B68 85%);
-		background-image: url("images/overlay.png"), linear-gradient(45deg, #FCE6E6 15%, #EF8381 85%);
+		background-image: url("images/overlay.png"), -webkit-linear-gradient(45deg, #F5B5B3 15%, #E53935 85%);
+		background-image: url("images/overlay.png"), -ms-linear-gradient(45deg, #F8CECC 15%, #E53935 85%);
+		background-image: url("images/overlay.png"), linear-gradient(45deg, #FCE6E6 15%, #E53935 85%);
 		
 	}
 
