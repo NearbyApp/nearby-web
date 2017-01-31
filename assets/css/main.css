@@ -1625,10 +1625,10 @@
 
 	body {
 		background-color: #E53935; 
-		background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #F29C9A 15%, #E53935 85%);
-		background-image: url("images/overlay.png"), -webkit-linear-gradient(45deg, #F5B5B3 15%, #E53935 85%);
-		background-image: url("images/overlay.png"), -ms-linear-gradient(45deg, #F8CECC 15%, #E53935 85%);
-		background-image: url("images/overlay.png"), linear-gradient(45deg, #FCE6E6 15%, #E53935 85%);
+		background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #E53935 15%, #E53935 85%);
+		background-image: url("images/overlay.png"), -webkit-linear-gradient(45deg, #E8524E 15%, #E53935 85%);
+		background-image: url("images/overlay.png"), -ms-linear-gradient(45deg, #EB6B68 15%, #E53935 85%);
+		background-image: url("images/overlay.png"), linear-gradient(45deg, #EF8381 15%, #E53935 85%);
 		
 	}
 
