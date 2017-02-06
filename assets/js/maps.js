@@ -90,18 +90,22 @@ function initSearchBox(){
 
 function initSpotted() {
 
-    // Create an array of alphabetical characters used to label the markers.
-    var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    // Iterate over each spotteds
+    var markers = spotteds.map(function(spotteds, i) {
+    	var latLng = new google.maps.LatLng(spotteds["latitude"],spotteds["longitude"]);
+    	var infowindow = new google.maps.InfoWindow({
+    		content: spotteds["message"]
+  		});
+    	var marker = new google.maps.Marker({
+        	position: latLng
+        	// label: labels[i % labels.length]
+      	});
 
-    // Add some markers to the map.
-    // Note: The code uses the JavaScript Array.prototype.map() method to
-    // create an array of markers based on a given "locations" array.
-    // The map() method here has nothing to do with the Google Maps API.
-    var markers = locations.map(function(location, i) {
-      return new google.maps.Marker({
-        position: location,
-        label: labels[i % labels.length]
-      });
+      	marker.addListener('click', function() {
+    		infowindow.open(map, marker);
+  		});
+
+  		return marker;
     });
 
     // Add a marker clusterer to manage the markers.
