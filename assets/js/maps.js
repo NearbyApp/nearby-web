@@ -5,6 +5,7 @@ var spotteds = [
 		{"anonimity": true, "userId": "1b3ad16bbe0742ce81d13adbb6d6645b", "longitude": -73.5725573, "latitude": 45.4951791, "spottedId": "edb6413f-a5f1-4615-a82d-20fe4ddbfc30", "message": "Hey Hey"}
 	];
 
+
 function initMap() {
 	// Create a map object and specify the DOM element for display.
 	map = new google.maps.Map(document.getElementById('map'), {
@@ -63,6 +64,29 @@ function initSearchBox(){
 
 function initSpotted() {
 
+	// When the map has finish to load
+	map.addListener('idle', function() {
+		console.log(map.getRadius());
+
+		$.ajax({
+			url: 'https://nbyapi.mo-bergeron.com/v1/spotteds',
+			type: 'GET',
+			dataType: 'json',
+			data: {
+				latitude : 'yo',
+				longitude : 'lo'
+			},
+			success: function(response) {
+				console.log('done');
+				spotteds = response;
+			},
+			error: function(xhr) {
+				console.log('error');
+
+			}
+		});
+  	});
+
     // Iterate over each spotteds
     var markers = spotteds.map(function(spotteds, i) {
     	var latLng = new google.maps.LatLng(spotteds["latitude"],spotteds["longitude"]);
@@ -111,3 +135,4 @@ function askPosition(){
       handleLocationError(false, infoWindow, map.getCenter());
     }
 }
+
