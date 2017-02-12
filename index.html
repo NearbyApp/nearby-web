@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Nearby</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/maps.css">
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<span class="logo"><img src="images/logo.svg" alt="" /></span>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="#intro" class="active">Introduction</a></li>
+							<li><a href="#first">Features</a></li>
+							<li><a href="#second">GeoSpotted</a></li>
+							<li><a href="#cta">Get the app</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Introduction -->
+							<section id="intro" class="main">
+								<div class="spotlight">
+									<div class="content">
+										<header class="major">
+											<h2>A centralize app for the Spotted's</h2>
+										</header>
+										<p>Nearby is a mobile app that simplify the Spotted page on Facebook. You can now use this mobile app to share your Spotted message on our centralized system. Your message will be posted instantly and you have the option to share it anonymously.</p>
+									</div>
+									<span class="image"><img src="images/intro318.png" alt="" /></span>
+								</div>
+							</section>
+
+						<!-- First Section -->
+							<section id="first" class="main special">
+								<header class="major">
+									<h2>Features</h2>
+								</header>
+								<ul class="features">
+									<li>
+										<span class="icon major style1 fa-bullhorn"></span>
+										<h3>Share</h3>
+										<p>Sharing your Spotted is now so simple with Nearby. When you share your message, you don't have to wait for approval.</p>
+									</li>
+									<li>
+										<span class="icon major style3 fa-map-marker"></span>
+										<h3>Around</h3>
+										<p>When you post something, you post it where you are. So, it come very easy to see where the message has been shared.</p>
+									</li>
+									<li>
+										<span class="icon major style5 fa-users"></span>
+										<h3>Anonymity</h3>
+										<p>With the Nearby app, you have the option to share your message anonymously. So, no one will know your identity. You can also share as your real identity.</p>
+									</li>
+								</ul>
+								<footer class="major">
+								</footer>
+							</section>
+
+						<!-- Second Section -->
+							<section id="second" class="main special">
+								<header class="major">
+									<h2>Geo Spotted</h2>
+									<a class="button special" onclick="askPosition();">Find near me</a>
+									 <input id="pac-input" class="search-box" type="text" placeholder="Search Box">
+								</header>
+								<div id="map"></div>
+							</section
+
+						<!-- Get Started -->
+							<section id="cta" class="main special">
+								<header class="major">
+									<h2>Download</h2>
+									<p>Nearby is currently in development. If you want to be one of our tester, don't hesitate to contact us. The beta will not be available on the App Store and Android Store.<br /></p>
+								</header>
+								<footer class="major">
+									<ul class="actions">
+										<li><a href="https://github.com/NearbyApp/nearby-android" class="button">Android app repository</a></li>
+										<li><a href="https://github.com/NearbyApp/nearby-iOS" class="button">iOS app repository</a></li>
+									</ul>
+								</footer>
+							</section>
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section>
+							<h2>Who we are?</h2>
+							<p>As a part of a final project at École de technologie supérieure, we are four students that are working on this project. David Lebrun, Marc Grenier, Marc Olivier Bergeron and Samuel Ryc</p>
+						</section>
+						<section>
+							<h2>Contact us</h2>
+							<dl class="alt">
+								<dt>Email</dt>
+								<dd><a href="#">quadrexsoftware@gmail.com</a></dd>
+							</dl>
+							<ul class="icons">
+								<li><a href="https://github.com/NearbyApp" class="icon fa-github alt"><span class="label">GitHub</span></a></li>
+							</ul>
+						</section>
+						<p class="copyright">&copy; Nearby App</p>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSNRRoXivucFn4JDOXH0X7K9WlXJWfsMw&libraries=places&callback=initMap" async defer></script>
+			<script src="assets/js/maps.js"></script>
+
+	</body>
+</html>
