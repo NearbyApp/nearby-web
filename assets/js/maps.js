@@ -72,7 +72,7 @@ function initSpotted() {
 	   	var northLat = bounds.getNorthEast().lat();
 	   	var northLng = bounds.getNorthEast().lng();
 		$.ajax({
-			url: 'http://nearbyapp.github.io/v1/spotteds',
+			url: 'https://nearbyapp.github.io/v1/spotteds',
 			type: 'GET',
 			dataType: 'json',
 			headers: { "Authorization": "Basic " + btoa("guest" + ":" + "sjSHJLfHwUEbQB4gtHnzdJh1WfwRaVwWQZtilJvB1pZG8u1gFUFtgmGEUti2kLjONmf5fJqdpzvd26fLvdb0mNdtKib8SXpgCXjmYKblMUQAPDJzjgBLlUNAp7w2hmVOaUEquC037s3ZpEWxcLtIK1zdTdX9QY28fKNfClz1f0j9Vo8vMbvD562jiF8zgZ1i8hiI10AqI3vIxbSDN9RCjMEVU0La8cnDLmFXyAhWCOVbjTdujAcVJ1QFEcYkJGot4Kkugx0cKD2WB8zxkZtnRj4kYxWHGB8eb5E0dgTrC3w7"),
