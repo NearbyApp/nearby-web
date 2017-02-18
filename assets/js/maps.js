@@ -81,8 +81,8 @@ function initSpotted() {
 			data: {
 				minLat : southLat,
 				maxLat : northLat,
-				minLong: southLng,
-				maxLong: northLng,
+				minLong: northLng,
+				maxLong: southLng,
 				locationOnly: true
 			},
 			success: function(response) {
@@ -90,7 +90,6 @@ function initSpotted() {
 			},
 			error: function(xhr) {
 				console.log(xhr);
-
 			}
 		});
   	});
