@@ -10,7 +10,9 @@ function initMap() {
 	});
 
 	initSearchBox();
-	initSpotted();
+	map.addListener('idle', function() {
+		fetchSpotted();	
+  	});	
 }
 
 function initSearchBox(){
@@ -57,59 +59,56 @@ function initSearchBox(){
 	});
 }
 
-function initSpotted() {
-	
-	// When the map has finish to load
-	map.addListener('idle', function() {
-		var markers = [];
-		var bounds = map.getBounds();
-		var southLat = bounds.getSouthWest().lat();
-	   	var southLng = bounds.getSouthWest().lng();
-	   	var northLat = bounds.getNorthEast().lat();
-	   	var northLng = bounds.getNorthEast().lng();
-		$.ajax({
-			url: 'https://nbyapi.mo-bergeron.com/v1/spotteds',
-			type: 'GET',
-			dataType: 'json',
-			headers: { "Authorization": "Basic " + btoa("guest:sjSHJLfHwUEbQB4gtHnzdJh1WfwRaVwWQZtilJvB1pZG8u1gFUFtgmGEUti2kLjONmf5fJqdpzvd26fLvdb0mNdtKib8SXpgCXjmYKblMUQAPDJzjgBLlUNAp7w2hmVOaUEquC037s3ZpEWxcLtIK1zdTdX9QY28fKNfClz1f0j9Vo8vMbvD562jiF8zgZ1i8hiI10AqI3vIxbSDN9RCjMEVU0La8cnDLmFXyAhWCOVbjTdujAcVJ1QFEcYkJGot4Kkugx0cKD2WB8zxkZtnRj4kYxWHGB8eb5E0dgTrC3w7"),
-						"Service-Provider": "Guest" 
-					},
-			data: {
-				minLat : southLat,
-				maxLat : northLat,
-				minLong: northLng,
-				maxLong: southLng,
-				locationOnly: false
-			},
-			success: function(response) {
-				spotteds = response;
-				console.log(spotteds);
-			},
-			error: function(xhr) {
-				console.log(xhr);
-			}
-		});
+function fetchSpotted() {
+	var bounds = map.getBounds();
+	var southLat = bounds.getSouthWest().lat();
+   	var southLng = bounds.getSouthWest().lng();
+   	var northLat = bounds.getNorthEast().lat();
+   	var northLng = bounds.getNorthEast().lng();
+	$.ajax({
+		url: 'https://nbyapi.mo-bergeron.com/v1/spotteds',
+		type: 'GET',
+		dataType: 'json',
+		headers: { "Authorization": "Basic " + btoa("guest:sjSHJLfHwUEbQB4gtHnzdJh1WfwRaVwWQZtilJvB1pZG8u1gFUFtgmGEUti2kLjONmf5fJqdpzvd26fLvdb0mNdtKib8SXpgCXjmYKblMUQAPDJzjgBLlUNAp7w2hmVOaUEquC037s3ZpEWxcLtIK1zdTdX9QY28fKNfClz1f0j9Vo8vMbvD562jiF8zgZ1i8hiI10AqI3vIxbSDN9RCjMEVU0La8cnDLmFXyAhWCOVbjTdujAcVJ1QFEcYkJGot4Kkugx0cKD2WB8zxkZtnRj4kYxWHGB8eb5E0dgTrC3w7"),
+					"Service-Provider": "Guest" 
+				},
+		data: {
+			minLat : southLat,
+			maxLat : northLat,
+			minLong: northLng,
+			maxLong: southLng,
+			locationOnly: false
+		},
+		success: function(response) {
+			spotteds = response;
+			setMarkers(spotteds);
+		},
+		error: function(xhr) {
+		}
+	});
+}
 
-		for(var i = 0; i < spotteds.length; i++) {
-		  	var latLng = new google.maps.LatLng(spotteds[i].location.coordinates[0], spotteds[i].location.coordinates[1]);
-		  	var infowindow = new google.maps.InfoWindow({
-		  		content : spotteds[i].message
-	  		});
+function setMarkers(spotteds) {
+	var markers = [];
+	for(var i = 0; i < spotteds.length; i++) {
+	  	var latLng = new google.maps.LatLng(spotteds[i].location.coordinates[1], spotteds[i].location.coordinates[0]);
+	  	var infowindow = new google.maps.InfoWindow({
+	  		content : spotteds[i].message
+  		});
 
-	  		var marker = new google.maps.Marker({
-	  			position: latLng
-	  		});
+  		var marker = new google.maps.Marker({
+  			position: latLng
+  		});
 
-	  		marker.addListener('click', function() {
-	  			infowindow.open(map, marker);
-	  		});
+  		marker.addListener('click', function() {
+  			infowindow.open(map, marker);
+  		});
 
-	  		markers.push(marker);
-  		}
+  		markers.push(marker);
+	}
 
-    	var markerCluster = new MarkerClusterer(map, markers,
-        	{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});	
-  	});	
+	var markerCluster = new MarkerClusterer(map, markers,
+    	{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
