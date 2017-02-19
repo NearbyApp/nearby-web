@@ -1,10 +1,5 @@
 var map;
-
-var spotteds = [
-		{"anonimity": true, "userId": "1b3ad16bbe0742ce81d13adbb6d6645a", "longitude": -73.5731313, "latitude": 45.4969539, "spottedId": "edb6413f-a5f1-4615-a82d-20fe4ddbfc37", "message": "Hey Hey"},
-		{"anonimity": true, "userId": "1b3ad16bbe0742ce81d13adbb6d6645b", "longitude": -73.5725573, "latitude": 45.4951791, "spottedId": "edb6413f-a5f1-4615-a82d-20fe4ddbfc30", "message": "Hey Hey"}
-	];
-
+var spotteds = [];
 
 function initMap() {
 	// Create a map object and specify the DOM element for display.
@@ -63,9 +58,10 @@ function initSearchBox(){
 }
 
 function initSpotted() {
-
+	
 	// When the map has finish to load
 	map.addListener('idle', function() {
+		var markers = [];
 		var bounds = map.getBounds();
 		var southLat = bounds.getSouthWest().lat();
 	   	var southLng = bounds.getSouthWest().lng();
@@ -83,41 +79,37 @@ function initSpotted() {
 				maxLat : northLat,
 				minLong: northLng,
 				maxLong: southLng,
-				locationOnly: true
+				locationOnly: false
 			},
 			success: function(response) {
 				spotteds = response;
-				for(var i = 0; i < spotteds.length; i++) {
-					console.log(spotteds[i].location.coordinates[0]);
-				}
+				console.log(spotteds);
 			},
 			error: function(xhr) {
 				console.log(xhr);
 			}
 		});
-  	});
 
-    // Iterate over each spotteds
-    var markers = spotteds.map(function(spotteds, i) {
-    	var latLng = new google.maps.LatLng(spotteds["latitude"],spotteds["longitude"]);
-    	var infowindow = new google.maps.InfoWindow({
-    		content: spotteds["message"]
-  		});
-    	var marker = new google.maps.Marker({
-        	position: latLng
-        	// label: labels[i % labels.length]
-      	});
+		for(var i = 0; i < spotteds.length; i++) {
+		  	var latLng = new google.maps.LatLng(spotteds[i].location.coordinates[0], spotteds[i].location.coordinates[1]);
+		  	var infowindow = new google.maps.InfoWindow({
+		  		content : spotteds[i].message
+	  		});
 
-      	marker.addListener('click', function() {
-    		infowindow.open(map, marker);
-  		});
+	  		var marker = new google.maps.Marker({
+	  			position: latLng
+	  		});
 
-  		return marker;
-    });
+	  		marker.addListener('click', function() {
+	  			infowindow.open(map, marker);
+	  		});
 
-    // Add a marker clusterer to manage the markers.
-    var markerCluster = new MarkerClusterer(map, markers,
-        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});	
+	  		markers.push(marker);
+  		}
+
+    	var markerCluster = new MarkerClusterer(map, markers,
+        	{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});	
+  	});	
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
