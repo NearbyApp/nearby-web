@@ -1,5 +1,4 @@
 var map;
-var spotteds = [];
 
 function initMap() {
 	// Create a map object and specify the DOM element for display.
@@ -16,19 +15,14 @@ function initMap() {
 }
 
 function initSearchBox(){
-	// Create the search box and link it to the UI element.
 	var input = document.getElementById('pac-input');
 	var searchBox = new google.maps.places.SearchBox(input);
 	map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-	// Bias the SearchBox results towards current map's viewport.
 	map.addListener('bounds_changed', function() {
 	searchBox.setBounds(map.getBounds());
 	});
 
-	var markers = [];
-	// Listen for the event fired when the user selects a prediction and retrieve
-	// more details for that place.
 	searchBox.addListener('places_changed', function() {
 		var places = searchBox.getPlaces();
 
@@ -80,10 +74,10 @@ function fetchSpotteds() {
 			locationOnly: true
 		},
 		success: function(response) {
-			spotteds = response;
-			setMarkers(spotteds);
+			setMarkers(response);
 		},
 		error: function(xhr) {
+			console.log("can't fetch Spotteds");
 		}
 	});
 }
@@ -100,13 +94,13 @@ function fetchSpotted(id, callback) {
 			callback(response);
 		},
 		error: function(xhr) {
+			console.log("Can't fetch a Spotted");
 		}
 	});
 }
 
 function setMarkers(spotteds) {
 
-	console.log(spotteds);
 	var markers = spotteds.map(function(spotted, i) {
 		var latLng = new google.maps.LatLng(spotted.location.coordinates[1], spotted.location.coordinates[0]);
 		
@@ -116,9 +110,25 @@ function setMarkers(spotteds) {
   		});
 
   		marker.addListener('click', function() {
-  			fetchSpotted(spotted._id ,function(output){
+  			fetchSpotted(spotted._id ,function(output) {
+  				var windowContent = "";
+  				console.log(output);
+  				dateProcess(output.creationDate);
+  				if(!output.anonymity) {
+  					windowContent += "<div style=\"text-align: center; \"><div style=\"display: inline;\"><img style=\"max-width: 100%; height: 20px; \" src=\""+ output.profilePictureURL + "\"></div><div style=\"display: inline;\"><b>" + output.fullName + "</b></div></div>";
+  				}
+  				else {
+  					windowContent += "<h3>Anonymous</h3></br>";
+  				}
+  				if(output.pictureURL != null) {
+  					windowContent += output.creationDate + "</br><h3>" + output.message + "</h3></br></br><img style=\"max-width: 100%; height: 150px;\" src=\""+ output.pictureURL + "\">"
+  				}
+  				else {
+  					windowContent += output.creationDate + "</br><h3>" + output.message + "</h3></br><span></span>"
+  				}
+
   				var infowindow = new google.maps.InfoWindow({
-	  				content : "<h3>" + output.message + "</h3></br><img style=\"max-width: 100%; height: auto;\" src=\""+ output.pictureURL + "\">"
+	  				content : windowContent
   				});
 
   				infowindow.open(map, marker);
@@ -130,6 +140,11 @@ function setMarkers(spotteds) {
 
 	var markerCluster = new MarkerClusterer(map, markers,
     	{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+}
+
+function dateProcess(date) {
+	var formatDate = new Date(date);
+	console.log(formatDate.getDay());
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
