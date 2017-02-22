@@ -1,4 +1,4 @@
-var map;
+var map, spotteds, markerCluster;
 
 function initMap() {
 	// Create a map object and specify the DOM element for display.
@@ -7,6 +7,10 @@ function initMap() {
 		scrollwheel: true,
 		zoom: 12
 	});
+
+	spotteds = [];
+	markerCluster = new MarkerClusterer(map, [],
+    	{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
 	initSearchBox();
 	map.addListener('idle', function() {
@@ -74,7 +78,8 @@ function fetchSpotteds() {
 			locationOnly: true
 		},
 		success: function(response) {
-			setMarkers(response);
+			var newSpotteds = getNewSpotteds(response);
+			setMarkers(newSpotteds);
 		},
 		error: function(xhr) {
 			console.log("can't fetch Spotteds");
@@ -112,8 +117,6 @@ function setMarkers(spotteds) {
   		marker.addListener('click', function() {
   			fetchSpotted(spotted._id ,function(output) {
   				var windowContent = "";
-  				console.log(output);
-  				dateProcess(output.creationDate);
   				if(!output.anonymity) {
   					windowContent += "<div style=\"text-align: center; \"><div style=\"display: inline;\"><img style=\"max-width: 100%; height: 20px; \" src=\""+ output.profilePictureURL + "\"></div><div style=\"display: inline;\"><b>" + output.fullName + "</b></div></div>";
   				}
@@ -138,13 +141,36 @@ function setMarkers(spotteds) {
   		return marker;
     });
 
-	var markerCluster = new MarkerClusterer(map, markers,
-    	{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+    markerCluster.addMarkers(markers);
 }
 
-function dateProcess(date) {
-	var formatDate = new Date(date);
-	console.log(formatDate.getDay());
+function getNewSpotteds(response) {
+	var newSpotteds = [];
+	if(spotteds.length > 0) {
+		for(var i = 0; i < response.length; i++) {
+			if(!containsObject(response[i], spotteds)) {
+				newSpotteds.push(response[i]);
+				spotteds.push(response[i]);
+			}
+		}
+	}
+	else {
+		for(var i = 0; i < response.length; i++) {
+			newSpotteds.push(response[i]);
+			spotteds.push(response[i]);
+		}
+	}
+
+	return newSpotteds;
+}
+
+function containsObject(obj, list) {
+	for(var i = 0; i < list.length; i++) {
+		if(list[i]._id == obj._id) {
+			return true;
+		}
+	}
+	return false;
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
