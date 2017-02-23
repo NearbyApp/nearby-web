@@ -14,8 +14,8 @@ function initMap() {
 
 	initSearchBox();
 	map.addListener('idle', function() {
-		fetchSpotteds();	
-  	});	
+		fetchSpotteds();
+  	});
 }
 
 function initSearchBox(){
@@ -68,7 +68,7 @@ function fetchSpotteds() {
 		type: 'GET',
 		dataType: 'json',
 		headers: { "Authorization": "Basic " + btoa("guest:sjSHJLfHwUEbQB4gtHnzdJh1WfwRaVwWQZtilJvB1pZG8u1gFUFtgmGEUti2kLjONmf5fJqdpzvd26fLvdb0mNdtKib8SXpgCXjmYKblMUQAPDJzjgBLlUNAp7w2hmVOaUEquC037s3ZpEWxcLtIK1zdTdX9QY28fKNfClz1f0j9Vo8vMbvD562jiF8zgZ1i8hiI10AqI3vIxbSDN9RCjMEVU0La8cnDLmFXyAhWCOVbjTdujAcVJ1QFEcYkJGot4Kkugx0cKD2WB8zxkZtnRj4kYxWHGB8eb5E0dgTrC3w7"),
-					"Service-Provider": "Guest" 
+					"Service-Provider": "Guest"
 				},
 		data: {
 			minLat : southLat,
@@ -93,7 +93,7 @@ function fetchSpotted(id, callback) {
 		type: 'GET',
 		dataType: 'json',
 		headers: { "Authorization": "Basic " + btoa("guest:sjSHJLfHwUEbQB4gtHnzdJh1WfwRaVwWQZtilJvB1pZG8u1gFUFtgmGEUti2kLjONmf5fJqdpzvd26fLvdb0mNdtKib8SXpgCXjmYKblMUQAPDJzjgBLlUNAp7w2hmVOaUEquC037s3ZpEWxcLtIK1zdTdX9QY28fKNfClz1f0j9Vo8vMbvD562jiF8zgZ1i8hiI10AqI3vIxbSDN9RCjMEVU0La8cnDLmFXyAhWCOVbjTdujAcVJ1QFEcYkJGot4Kkugx0cKD2WB8zxkZtnRj4kYxWHGB8eb5E0dgTrC3w7"),
-					"Service-Provider": "Guest" 
+					"Service-Provider": "Guest"
 				},
 		success: function(response) {
 			callback(response);
@@ -108,9 +108,10 @@ function setMarkers(spotteds) {
 
 	var markers = spotteds.map(function(spotted, i) {
 		var latLng = new google.maps.LatLng(spotted.location.coordinates[1], spotted.location.coordinates[0]);
-		
+
         var marker = new google.maps.Marker({
   			position: latLng,
+				icon: 'images/marker.png',
   			map : map
   		});
 
@@ -198,4 +199,3 @@ function askPosition(){
       handleLocationError(false, infoWindow, map.getCenter());
     }
 }
-
