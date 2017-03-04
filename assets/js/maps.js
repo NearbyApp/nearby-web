@@ -118,17 +118,18 @@ function setMarkers(spotteds) {
   		marker.addListener('click', function() {
   			fetchSpotted(spotted._id ,function(output) {
   				var windowContent = "";
+					var spotDate = new Date(output.creationDate);
   				if(!output.anonymity) {
   					windowContent += "<div style=\"text-align: center; \"><div style=\"display: inline;\"><img style=\"max-width: 100%; height: 20px; \" src=\""+ output.profilePictureURL + "\"></div><div style=\"display: inline;\"><b>" + output.fullName + "</b></div></div>";
   				}
   				else {
-  					windowContent += "<h3>Anonymous</h3></br>";
+  					windowContent += "<div style=\"text-align: center; \"><div style=\"display: inline;\"><img style=\"max-width: 100%; height: 20px; \" src=\"images/user.png\"></div><div style=\"display: inline;\"><b>Anonymous</b></div></div>";
   				}
   				if(output.pictureURL != null) {
-  					windowContent += output.creationDate + "</br><h3>" + output.message + "</h3></br></br><img style=\"max-width: 100%; height: 150px;\" src=\""+ output.pictureURL + "\">"
+  					windowContent += prettyDate(output.creationDate) + "</br></br><h3>" + output.message + "</h3></br><img style=\"max-width: 100%; height: 300px;\" src=\""+ output.pictureURL + "\">"
   				}
   				else {
-  					windowContent += output.creationDate + "</br><h3>" + output.message + "</h3></br><span></span>"
+  					windowContent += prettyDate(output.creationDate) + "</br></br><h3>" + output.message + "</h3></br><span></span>"
   				}
 
   				var infowindow = new google.maps.InfoWindow({
