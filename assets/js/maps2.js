@@ -1,22 +1,25 @@
-var map, spotteds, markerCluster;
+var map, gm, spotteds, markerCluster, iw, oms;
 
-function initMap() {
-	// Create a map object and specify the DOM element for display.
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat: 45.5088400, lng: -73.5878100},
-		scrollwheel: true,
-		zoom: 12
-	});
+window.onload = function() {
+  gm = google.maps;
+  map = new gm.Map(document.getElementById('map'), {
+    center: {lat: 45.5088400, lng: -73.5878100},
+    scrollwheel: true,
+    zoom: 12
+  });
+  iw = new gm.InfoWindow();
+  oms = new OverlappingMarkerSpiderfier(map);
 
-	spotteds = [];
+  spotteds = [];
 	markerCluster = new MarkerClusterer(map, [],
     	{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
 	initSearchBox();
 	map.addListener('idle', function() {
 		fetchSpotteds();
-  	});
+  });
 }
+
 
 function initSearchBox(){
 	var input = document.getElementById('pac-input');
@@ -107,14 +110,14 @@ function fetchSpotted(id, callback) {
 function setMarkers(spotteds) {
 
 	var markers = spotteds.map(function(spotted, i) {
-		var latLng = new google.maps.LatLng(spotted.location.coordinates[1] + 0.0001, spotted.location.coordinates[0] + 0.0001);
+		var latLng = new google.maps.LatLng(spotted.location.coordinates[1], spotted.location.coordinates[0]);
 
         var marker = new google.maps.Marker({
   			position: latLng,
 				icon: 'images/marker.png',
   			map : map
   		});
-
+      
   		marker.addListener('click', function() {
   			fetchSpotted(spotted._id ,function(output) {
   				var windowContent = "";
