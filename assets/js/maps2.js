@@ -7,19 +7,19 @@ window.onload = function() {
     scrollwheel: true,
     zoom: 12
   });
+
   iw = new gm.InfoWindow();
   oms = new OverlappingMarkerSpiderfier(map);
 
   spotteds = [];
 	markerCluster = new MarkerClusterer(map, [],
-    	{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m', maxZoom: 15});
+    	{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m', maxZoom: 21});
 
 	initSearchBox();
 	map.addListener('idle', function() {
 		fetchSpotteds();
   });
 }
-
 
 function initSearchBox(){
 	var input = document.getElementById('pac-input');
@@ -108,6 +108,13 @@ function fetchSpotted(id, callback) {
 }
 
 function setMarkers(spotteds) {
+  oms.addListener('click', function(marker) {
+     iw.setContent(marker.desc);
+     iw.open(map, marker);
+   });
+   oms.addListener('spiderfy', function(markers) {
+     iw.close();
+   });
 
 	var markers = spotteds.map(function(spotted, i) {
 
@@ -117,46 +124,31 @@ function setMarkers(spotteds) {
         icon: 'images/marker.png',
         map: map
       });
+
+      fetchSpotted(spotted._id, function(output) {
+        var windowContent = "";
+        var spotDate = new Date(output.creationDate);
+        if(!output.anonymity) {
+					windowContent += "<div style=\"text-align: center; \"><div style=\"display: inline;\"><img style=\"max-width: 100%; height: 20px; \" src=\""+ output.profilePictureURL + "\"></div><div style=\"display: inline;\"><b>" + output.fullName + "</b></div></div>";
+				}
+				else {
+					windowContent += "<div style=\"text-align: center; \"><div style=\"display: inline;\"><img style=\"max-width: 100%; height: 20px; \" src=\"images/user.png\"></div><div style=\"display: inline;\"><b>Anonymous</b></div></div>";
+				}
+				if(output.pictureURL != null) {
+					windowContent += prettyDate(output.creationDate) + "</br></br><h3>" + output.message + "</h3></br><img style=\"max-width: 100%; height: 300px;\" src=\""+ output.pictureURL + "\">"
+				}
+				else {
+					windowContent += prettyDate(output.creationDate) + "</br></br><h3>" + output.message + "</h3></br><span></span>"
+				}
+
+        marker.desc = windowContent;
+      });
+
       oms.addMarker(marker);
-    //var latLng = new google.maps.LatLng(spotted.location.coordinates[1], spotted.location.coordinates[0]);
-
-    /*var marker = new google.maps.Marker({
-  			position: latLng,
-				icon: 'images/marker.png',
-  			map : map
-  		});
-
-
-  		marker.addListener('click', function() {
-  			fetchSpotted(spotted._id ,function(output) {
-  				var windowContent = "";
-					var spotDate = new Date(output.creationDate);
-  				if(!output.anonymity) {
-  					windowContent += "<div style=\"text-align: center; \"><div style=\"display: inline;\"><img style=\"max-width: 100%; height: 20px; \" src=\""+ output.profilePictureURL + "\"></div><div style=\"display: inline;\"><b>" + output.fullName + "</b></div></div>";
-  				}
-  				else {
-  					windowContent += "<div style=\"text-align: center; \"><div style=\"display: inline;\"><img style=\"max-width: 100%; height: 20px; \" src=\"images/user.png\"></div><div style=\"display: inline;\"><b>Anonymous</b></div></div>";
-  				}
-  				if(output.pictureURL != null) {
-  					windowContent += prettyDate(output.creationDate) + "</br></br><h3>" + output.message + "</h3></br><img style=\"max-width: 100%; height: 300px;\" src=\""+ output.pictureURL + "\">"
-  				}
-  				else {
-  					windowContent += prettyDate(output.creationDate) + "</br></br><h3>" + output.message + "</h3></br><span></span>"
-  				}
-
-  				var infowindow = new google.maps.InfoWindow({
-	  				content : windowContent
-  				});
-
-  				infowindow.open(map, marker);
-  			});
-  		});
-      */
-  		return marker;
+		  return marker;
     });
 
     markerCluster.addMarkers(markers);
-
 }
 
 function getNewSpotteds(response) {

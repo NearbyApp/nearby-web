@@ -107,16 +107,16 @@ function fetchSpotted(id, callback) {
 function setMarkers(spotteds) {
 
 	var markers = spotteds.map(function(spotted, i) {
-		var latLng = new google.maps.LatLng(spotted.location.coordinates[1] + 0.0001, spotted.location.coordinates[0] + 0.0001);
 
+				var latLng = new google.maps.LatLng(spotted.location.coordinates[1], spotted.location.coordinates[0]);
         var marker = new google.maps.Marker({
-  			position: latLng,
-				icon: 'images/marker.png',
-  			map : map
+  				position: latLng,
+					icon: 'images/marker.png',
+  				map : map
   		});
 
   		marker.addListener('click', function() {
-  			fetchSpotted(spotted._id ,function(output) {
+  			fetchSpotted(spotted._id , function(output) {
   				var windowContent = "";
 					var spotDate = new Date(output.creationDate);
   				if(!output.anonymity) {
