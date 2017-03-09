@@ -121,7 +121,7 @@ function setMarkers(spotteds) {
       var loc = new gm.LatLng(spotted.location.coordinates[1], spotted.location.coordinates[0]);
       var marker = new gm.Marker({
         position: loc,
-        icon: 'images/marker.png',
+        icon: 'images/marker.svg',
         map: map
       });
 
