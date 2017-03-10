@@ -1,5 +1,41 @@
 var map, gm, spotteds, markerCluster, iw, oms;
 
+var mcOptions = {gridSize: 50, maxZoom: 21, styles: [
+  {
+    textColor: 'white',
+    textSize: 14,
+    fontFamily:"Roboto",
+    height: 50,
+    url: "images/m1.svg",
+    width: 50
+  },
+  {
+    textColor: 'white',
+    textSize: 14,
+    fontFamily:"Roboto",
+    height: 50,
+    url: "images/m2.svg",
+    width: 50
+  },
+  {
+    textColor: 'white',
+    textSize: 14,
+    fontFamily:"Roboto",
+    height: 50,
+    url: "images/m3.svg",
+    width: 50
+  },
+  {
+    textColor: 'white',
+    textSize: 14,
+    fontFamily:"Roboto",
+    height: 50,
+    url: "images/m4.svg",
+    width: 50
+  }]
+};
+
+
 window.onload = function() {
   gm = google.maps;
   map = new gm.Map(document.getElementById('map'), {
@@ -12,8 +48,7 @@ window.onload = function() {
   oms = new OverlappingMarkerSpiderfier(map);
 
   spotteds = [];
-	markerCluster = new MarkerClusterer(map, [],
-    	{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m', maxZoom: 21});
+	markerCluster = new MarkerClusterer(map, [], mcOptions);
 
 	initSearchBox();
 	map.addListener('idle', function() {
@@ -67,7 +102,7 @@ function fetchSpotteds() {
    	var northLat = bounds.getNorthEast().lat();
    	var northLng = bounds.getNorthEast().lng();
 	$.ajax({
-		url: 'https://nbyapi.mo-bergeron.com/v1/spotteds',
+		url: 'https://test.mo-bergeron.com/v1/spotteds',
 		type: 'GET',
 		dataType: 'json',
 		headers: { "Authorization": "Basic " + btoa("guest:sjSHJLfHwUEbQB4gtHnzdJh1WfwRaVwWQZtilJvB1pZG8u1gFUFtgmGEUti2kLjONmf5fJqdpzvd26fLvdb0mNdtKib8SXpgCXjmYKblMUQAPDJzjgBLlUNAp7w2hmVOaUEquC037s3ZpEWxcLtIK1zdTdX9QY28fKNfClz1f0j9Vo8vMbvD562jiF8zgZ1i8hiI10AqI3vIxbSDN9RCjMEVU0La8cnDLmFXyAhWCOVbjTdujAcVJ1QFEcYkJGot4Kkugx0cKD2WB8zxkZtnRj4kYxWHGB8eb5E0dgTrC3w7"),
@@ -92,7 +127,7 @@ function fetchSpotteds() {
 
 function fetchSpotted(id, callback) {
 	$.ajax({
-		url: 'https://nbyapi.mo-bergeron.com/v1/spotted/'+id,
+		url: 'https://test.mo-bergeron.com/v1/spotted/'+id,
 		type: 'GET',
 		dataType: 'json',
 		headers: { "Authorization": "Basic " + btoa("guest:sjSHJLfHwUEbQB4gtHnzdJh1WfwRaVwWQZtilJvB1pZG8u1gFUFtgmGEUti2kLjONmf5fJqdpzvd26fLvdb0mNdtKib8SXpgCXjmYKblMUQAPDJzjgBLlUNAp7w2hmVOaUEquC037s3ZpEWxcLtIK1zdTdX9QY28fKNfClz1f0j9Vo8vMbvD562jiF8zgZ1i8hiI10AqI3vIxbSDN9RCjMEVU0La8cnDLmFXyAhWCOVbjTdujAcVJ1QFEcYkJGot4Kkugx0cKD2WB8zxkZtnRj4kYxWHGB8eb5E0dgTrC3w7"),
